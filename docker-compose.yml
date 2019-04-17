@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - .:/srv/app
+    env_file:
+      - .docker.env
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./public:/srv/app/public
+      - ./docker/nginx/log:/var/log/nginx
+    env_file:
+      - .docker.env
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 13306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./docker/mysql/dump:/docker-entrypoint-initdb.d
+    env_file:
+      - .docker.env
+
+volumes:
+  mysql:
+    driver: "local"
