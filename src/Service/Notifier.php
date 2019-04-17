@@ -3,6 +3,7 @@
 namespace App\Service;
 
 
+use Symfony\Component\Filesystem\Filesystem;
 use Twig\Environment as Twig;
 
 /**
@@ -57,7 +58,7 @@ class Notifier
      */
     public function saveJokeToFile($category, $joke)
     {
-        //todo
+        $filesystem = new Filesystem();
+        $filesystem->appendToFile("/tmp/jokes/$category.txt", $joke."\n");
     }
-
 }
