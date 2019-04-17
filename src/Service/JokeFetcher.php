@@ -38,4 +38,23 @@ class JokeFetcher
 
         return $categories;
     }
+
+    /**
+     * @param string $category
+     * @return string
+     * @throws \Exception
+     */
+    public function getRandomJokeFromCategory(string $category): string
+    {
+        try {
+            $joke = $this->apiClient->get('jokes/random', [
+                'limitTo' => "[$category]"
+            ]);
+        }
+        catch (GuzzleException $e) {
+            return 'error';
+        }
+
+        return $joke['joke'] ?? 'Api error, no joke';
+    }
 }
