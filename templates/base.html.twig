@@ -14,17 +14,30 @@
 </head>
 {% block topJs %}{% endblock %}
 <body>
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal"><a style="color: black" href="{{ path('index') }}">Joke API</a></h5>
 </div>
 {% block body %}
-    <div class="container-fluid">
+    <div class="container">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         {% block content %}
         {% endblock %}
     </div>
 {% endblock %}
 
-<footer class="container-fluid">
+<footer class="container">
     <p>© Ilya Shashilov 2019</p>
 </footer>
 <!-- Optional JavaScript -->
